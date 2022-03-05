@@ -1,10 +1,9 @@
-package com.example.letscodeinit.sweater;
+package com.example.letscodeinit.controller;
 
 import com.example.letscodeinit.domain.Message;
 import com.example.letscodeinit.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller //модуль проограммы который по пути /greeting
-public class GreetingController {
+public class MainController {
     @Autowired
     private MessageRepo messageRepo; // бин
 
