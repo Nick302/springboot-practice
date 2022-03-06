@@ -14,20 +14,20 @@ public class Message {  //наша сущность
     //теги
     private String tag;
 
-    public String getAuthorName(){ // для main.mustache создали
+    public String getAuthorName() { // для   создали
         return author != null ? author.getUsername() : "<none>";
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)// одному пользователю - множество сообщений , и при получение сразу EAGER + author
+    @ManyToOne(fetch = FetchType.EAGER)
+// одному пользователю - множество сообщений , и при получение сразу EAGER + author
     @JoinColumn(name = "user_id")
     private User author;
-
 
 
     public Message() {
     }
 
-    public Message(String text, String tag,User user) {
+    public Message(String text, String tag, User user) {
         this.text = text;
         this.tag = tag;
         this.author = user;
