@@ -1,14 +1,11 @@
 package com.example.letscodeinit.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Message {  //наша сущность
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO) // чтоб фреймворк сам разобрался с базой данной и делал
+    @GeneratedValue(strategy = GenerationType.AUTO) // чтоб фреймворк сам разобрался с базой данной и делал
     private Integer id;
 
     //текст сообщения
@@ -17,12 +14,23 @@ public class Message {  //наша сущность
     //теги
     private String tag;
 
+    public String getAuthorName(){ // для main.mustache создали
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)// одному пользователю - множество сообщений , и при получение сразу EAGER + author
+    @JoinColumn(name = "user_id")
+    private User author;
+
+
+
     public Message() {
     }
 
-    public Message(String text, String tag) {
+    public Message(String text, String tag,User user) {
         this.text = text;
         this.tag = tag;
+        this.author = user;
     }
 
     public void setText(String text) {
@@ -47,5 +55,13 @@ public class Message {  //наша сущность
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

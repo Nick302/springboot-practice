@@ -1,11 +1,15 @@
 package com.example.letscodeinit.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -13,8 +17,10 @@ public class User {
     private String password;
     private boolean active; //признак активности
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER) //не нужно самому таблицу на енам делать ,еагер лучше когда мало данных - но потребляет память
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))//поле будет в отдельной таблице которое мы не описывали , которая будет соедениться с текущей по user_id
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    //не нужно самому таблицу на енам делать ,еагер лучше когда мало данных - но потребляет память
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+//поле будет в отдельной таблице которое мы не описывали , которая будет соедениться с текущей по user_id
     @Enumerated(EnumType.STRING) //енам хранить в виде строки
     private Set<Role> roles; // ролевая админ юзер и тд
 
@@ -56,5 +62,30 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
     }
 }

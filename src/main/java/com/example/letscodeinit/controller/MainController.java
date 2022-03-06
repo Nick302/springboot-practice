@@ -1,8 +1,10 @@
 package com.example.letscodeinit.controller;
 
 import com.example.letscodeinit.domain.Message;
+import com.example.letscodeinit.domain.User;
 import com.example.letscodeinit.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,7 @@ public class MainController {
 
     @GetMapping("/") // переход на ту стр
     public String greeting(
-          ///  @RequestParam(name="name", required=false, defaultValue="World") String name,
+            ///  @RequestParam(name="name", required=false, defaultValue="World") String name,
             Map<String, Object> model
     ) {
         return "greeting";
@@ -31,8 +33,11 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
-        Message message = new Message(text, tag);
+    public String add(
+                      @AuthenticationPrincipal User user,
+                      @RequestParam String text,
+                      @RequestParam String tag, Map<String, Object> model) {
+        Message message = new Message(text, tag,user );
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);

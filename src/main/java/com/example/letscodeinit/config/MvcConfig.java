@@ -7,9 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
     //класс содержающий вебконфигурацию нашего слоя
-   public void addViewControllers(ViewControllerRegistry registry){
+    public void addViewControllers(ViewControllerRegistry registry) {
 
-       registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
 //не нужно контролер , раздаются странички , логин шаблон сам будет
-   }
+    }
 }
