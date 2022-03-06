@@ -14,6 +14,8 @@ public class Message {  //наша сущность
     //теги
     private String tag;
 
+    private String filename;
+
     public String getAuthorName() { // для   создали
         return author != null ? author.getUsername() : "<none>";
     }
@@ -31,6 +33,14 @@ public class Message {  //наша сущность
         this.text = text;
         this.tag = tag;
         this.author = user;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public void setText(String text) {
