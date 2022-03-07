@@ -18,6 +18,9 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean active; //признак активности
+    private String email;
+    private String activationCode;
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     //не нужно самому таблицу на енам делать ,еагер лучше когда мало данных - но потребляет память
@@ -25,62 +28,60 @@ public class User implements UserDetails {
 //поле будет в отдельной таблице которое мы не описывали , которая будет соедениться с текущей по user_id
     @Enumerated(EnumType.STRING) //енам хранить в виде строки
     private Set<Role> roles; // ролевая админ юзер и тд
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getActivationCode() {
+        return activationCode;
+    }
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
     public boolean isActive() {
         return active;
     }
-
     public void setActive(boolean active) {
         this.active = active;
     }
-
     public Set<Role> getRoles() {
         return roles;
     }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
